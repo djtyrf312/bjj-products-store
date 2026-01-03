@@ -7,14 +7,17 @@ const ProductPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Load products from JSON file
-    fetch('/bjj-products.json')
-      .then(response => response.json())
-      .then(data => {
-        setProducts(data.products);
+    // Load products from API (backed by SQLite)
+    fetch('/api/products')
+      .then((response) => {
+        if (!response.ok) throw new Error('Failed to load products');
+        return response.json();
+      })
+      .then((data) => {
+        setProducts(data);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         setError(err.message);
         setLoading(false);
       });
