@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
+const cors = require('cors');
 
 const PORT = process.env.PORT || 4000;
 const DB_PATH = path.join(__dirname, 'data', 'products.db');
@@ -66,6 +67,8 @@ function initializeDatabase() {
 
 const db = initializeDatabase();
 const app = express();
+
+app.use(cors());
 
 app.get('/api/products', (req, res) => {
   db.all('SELECT id, title, description, price, photo FROM products ORDER BY id', (err, rows) => {
