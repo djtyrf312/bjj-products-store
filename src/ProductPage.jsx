@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './ProductPage.css';
+const apiBase = process.env.REACT_APP_API_BASE || '/api';
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
 
   useEffect(() => {
     // Load products from API (backed by SQLite)
-    fetch('/api/products')
+    fetch(`${apiBase}/products`)
       .then((response) => {
         if (!response.ok) throw new Error('Failed to load products');
         return response.json();
