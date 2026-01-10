@@ -218,6 +218,13 @@
   margin: 0 auto;
 }
 
+.no-products-title {
+  text-align: center;
+  font-size: 1.5em;
+  color: #777;
+  margin-top: 50px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .products-grid {
