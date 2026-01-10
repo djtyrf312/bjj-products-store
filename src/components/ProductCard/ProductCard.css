@@ -1,0 +1,6 @@
+.delete-product-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #ccc;
+    color: #999;
+}
