@@ -7,31 +7,28 @@ const handleDelete = async (productId, setIsDeleting, onDelete) => {
 
     setIsDeleting(true);
 
-    try {
-        const response = await fetch(`api/products/${productId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if (!response.ok) {
-            throw new Error('Failed to delete product');
-        }
-        onDelete(productId);
-    } catch (err) {
+    fetch(`api/products/${productId}`, {
+        method: 'DELETE',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+    })
+    .then((response) => {
+    if (!response.ok) throw new Error('Failed to delete product');
+    // Remove product from state
+    onDelete(productId);
+    })
+    .catch((err) => {
         toast.error(
             `Error deleting product: ${err.message}`,
             { 
                 autoClose: 1500,
                 hideProgressBar: true
             });
-    } finally {
-        toast.success('Product deleted successfully', {
-            autoClose: 1500,
-            hideProgressBar: true
-        });
-        setIsDeleting(false);
-    }
+    })
+    .finally(() => {
+    setIsDeleting(false);
+    });
 };
 
-export default handleDelete;
+export { handleDelete };

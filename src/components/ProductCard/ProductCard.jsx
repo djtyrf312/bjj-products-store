@@ -1,43 +1,13 @@
 import React, { useState } from 'react';
 import './ProductCard.css';
-import { toast } from 'react-toastify';
 import { FaRegTrashAlt } from "react-icons/fa";
+import { handleDelete } from './handleProductDelete';
+import { Button } from '@mui/material';
 
 
 const ProductCard = ({ onDelete, productItem, index }) => {
     const { id, photo, title, description, price } = productItem;
     const [isDeleting, setIsDeleting] = useState(false);
-
-    const handleDelete = (productId) => {
-        if (!window.confirm('Are you sure you want to delete this product?')) {
-            return;
-        }
-
-        setIsDeleting(true);
-
-        fetch(`api/products/${productId}`, {
-            method: 'DELETE',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-        })
-        .then((response) => {
-        if (!response.ok) throw new Error('Failed to delete product');
-        // Remove product from state
-        onDelete(productId);
-        })
-        .catch((err) => {
-            toast.error(
-                `Error deleting product: ${err.message}`,
-                { 
-                    autoClose: 1500,
-                    hideProgressBar: true
-                });
-        })
-        .finally(() => {
-        setIsDeleting(false);
-        });
-    };
 
     return (
         <div key={id} className="product-card">
@@ -63,16 +33,17 @@ const ProductCard = ({ onDelete, productItem, index }) => {
             <div className="product-footer">
             <span className="product-price">${price.toFixed(2)}</span>
             <button className="add-to-cart-btn" hidden >Add to Cart</button>
-            <button 
-                className="delete-product-btn" 
-                onClick={() => handleDelete(id)} 
+            <Button 
+                variant="contained"
+                color="primary"
+                onClick={() => handleDelete(id, setIsDeleting, onDelete)}
                 disabled={isDeleting}
                 title="Delete product"
                 aria-label={`Delete ${title}`}
+                className='delete-product-btn'
             >
-                
                 <FaRegTrashAlt />
-            </button>
+            </Button>
             </div>
         </div>
         </div>
