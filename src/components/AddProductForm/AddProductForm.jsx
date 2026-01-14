@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './AddProductForm.css';
 import { toast } from 'react-toastify';
 
 const apiBase = process.env.REACT_APP_API_BASE || '/api';
 
-const AddProductForm = ({ onProductAdded }) => {
+const AddProductForm = ({ onProductAdded, onProductUpdated, editProduct, onCloseEdit }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -13,6 +13,34 @@ const AddProductForm = ({ onProductAdded }) => {
     photo: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const isEditMode = !!editProduct;
+
+  const handleCancel = useCallback(() => {
+    setIsFormVisible(false);
+    setFormData({
+      title: '',
+      description: '',
+      price: '',
+      photo: ''
+    });
+    if (isEditMode && onCloseEdit) {
+      onCloseEdit();
+    }
+  }, [isEditMode, onCloseEdit]);
+
+  // Load edit product data when editProduct changes
+  useEffect(() => {
+    if (editProduct) {
+      setFormData({
+        title: editProduct.title,
+        description: editProduct.description,
+        price: editProduct.price.toString(),
+        photo: editProduct.photo
+      });
+      setIsFormVisible(true);
+    }
+  }, [editProduct]);
 
   // Handle ESC key to close modal
   useEffect(() => {
@@ -31,7 +59,7 @@ const AddProductForm = ({ onProductAdded }) => {
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = 'unset';
     };
-  }, [isFormVisible]);
+  }, [isFormVisible, handleCancel]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -52,8 +80,11 @@ const AddProductForm = ({ onProductAdded }) => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(`${apiBase}/products`, {
-        method: 'POST',
+      const url = isEditMode ? `${apiBase}/products/${editProduct.id}` : `${apiBase}/products`;
+      const method = isEditMode ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -65,10 +96,10 @@ const AddProductForm = ({ onProductAdded }) => {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to create product');
+        throw new Error(error.error || `Failed to ${isEditMode ? 'update' : 'create'} product`);
       }
 
-      const newProduct = await response.json();
+      const product = await response.json();
       
       // Reset form
       setFormData({
@@ -82,45 +113,40 @@ const AddProductForm = ({ onProductAdded }) => {
       setIsFormVisible(false);
       
       // Notify parent component
-      if (onProductAdded) {
-        onProductAdded(newProduct);
+      if (isEditMode && onProductUpdated) {
+        onProductUpdated(product);
+        if (onCloseEdit) onCloseEdit();
+      } else if (onProductAdded) {
+        onProductAdded(product);
       }
       
-      toast.success('Product added successfully!');
+      toast.success(`Product ${isEditMode ? 'updated' : 'added'} successfully!`, { autoClose: 2000, hideProgressBar: true });
     } catch (error) {
-      console.error('Error creating product:', error);
-      toast.error(error.message || 'Failed to add product');
+      console.error(`Error ${isEditMode ? 'updating' : 'creating'} product:`, error);
+      toast.error(error.message || `Failed to ${isEditMode ? 'update' : 'add'} product`);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleCancel = () => {
-    setIsFormVisible(false);
-    setFormData({
-      title: '',
-      description: '',
-      price: '',
-      photo: ''
-    });
-  };
-
   return (
     <>
-      <div className="add-product-button-container">
-        <button 
-          className="add-product-button"
-          onClick={() => setIsFormVisible(true)}
-        >
-          + Add New Product
-        </button>
-      </div>
+      {!isEditMode && (
+        <div className="add-product-button-container">
+          <button 
+            className="add-product-button"
+            onClick={() => setIsFormVisible(true)}
+          >
+            + Add New Product
+          </button>
+        </div>
+      )}
 
       {isFormVisible && (
         <div className="modal-overlay" onClick={handleOverlayClick}>
           <div className="modal-content">
             <form className="add-product-form" onSubmit={handleSubmit}>
-          <h2>Add New Product</h2>
+          <h2>{isEditMode ? 'Edit Product' : 'Add New Product'}</h2>
           
           <div className="form-group">
             <label htmlFor="title">Product Title *</label>
@@ -190,7 +216,7 @@ const AddProductForm = ({ onProductAdded }) => {
               className="submit-button"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Adding...' : 'Add Product'}
+              {isSubmitting ? (isEditMode ? 'Updating...' : 'Adding...') : (isEditMode ? 'Update Product' : 'Add Product')}
             </button>
           </div>
             </form>

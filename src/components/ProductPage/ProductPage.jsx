@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './ProductPage.css';
 import ProductCard from '../ProductCard/ProductCard.jsx';
 import AddProductForm from '../AddProductForm/AddProductForm.jsx';
@@ -9,6 +9,7 @@ const ProductPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editingProduct, setEditingProduct] = useState(null);
 
   const onProductDelete = (deletedProductId) => {
     setProducts(products.filter(product => product.id !== deletedProductId));
@@ -16,6 +17,18 @@ const ProductPage = () => {
 
   const onProductAdded = (newProduct) => {
     setProducts([...products, newProduct]);
+  }
+
+  const onProductUpdated = (updatedProduct) => {
+    setProducts(products.map(p => p.id === updatedProduct.id ? updatedProduct : p));
+  }
+
+  const handleEdit = (product) => {
+    setEditingProduct(product);
+  }
+
+  const handleCloseEdit = () => {
+    setEditingProduct(null);
   }
 
   useEffect(() => {
@@ -26,8 +39,7 @@ const ProductPage = () => {
         return response.json();
       })
       .then((data) => {
-        const availableProducts = data.filter(product => !product.isDeleted);
-        setProducts(availableProducts);
+        setProducts(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -41,7 +53,12 @@ const ProductPage = () => {
 
   return (
     <div className="product-page">
-      <AddProductForm onProductAdded={onProductAdded} />
+      <AddProductForm 
+        onProductAdded={onProductAdded}
+        onProductUpdated={onProductUpdated}
+        editProduct={editingProduct}
+        onCloseEdit={handleCloseEdit}
+      />
 
       {products.length === 0 
       ? (<h2
@@ -54,7 +71,8 @@ const ProductPage = () => {
               key={product.id}
               productItem={product}
               index={index} 
-              onDelete={onProductDelete}>  
+              onDelete={onProductDelete}
+              onEdit={handleEdit}>  
             </ProductCard>
         ))}
       </div>}
