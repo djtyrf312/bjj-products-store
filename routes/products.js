@@ -15,6 +15,40 @@ router.get(productsRoute, (req, res) => {
     });
 });
 
+router.post(productsRoute, (req, res) => {
+    const { title, description, price, photo } = req.body;
+
+    // Validate required fields
+    if (!title || !description || !price || !photo) {
+        return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    // Validate price is a number
+    if (isNaN(price) || price <= 0) {
+        return res.status(400).json({ error: 'Price must be a positive number' });
+    }
+
+    db.run(
+        `INSERT INTO products (title, description, price, photo, isDeleted) VALUES (?, ?, ?, ?, 0)`,
+        [title, description, price, photo],
+        function(err) {
+            if (err) {
+                console.error('Failed to create product', err);
+                return res.status(500).json({ error: 'Failed to create product' });
+            }
+
+            // Return the newly created product
+            db.get('SELECT * FROM products WHERE id = ?', [this.lastID], (err, row) => {
+                if (err) {
+                    console.error('Failed to fetch created product', err);
+                    return res.status(500).json({ error: 'Product created but failed to fetch' });
+                }
+                res.status(201).json(row);
+            });
+        }
+    );
+});
+
 router.delete(productsRoute + '/:id', (req, res) => {
     const productId = req.params.id;
     

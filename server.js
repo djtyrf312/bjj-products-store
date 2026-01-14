@@ -70,6 +70,7 @@ const productsRouter = require('./routes/products');
 const app = express();
 
 app.use(cors());
+app.use(express.json()); // Parse JSON request bodies
 app.use(productsRouter);
 
 // Health check

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ProductPage.css';
 import ProductCard from '../ProductCard/ProductCard.jsx';
+import AddProductForm from '../AddProductForm/AddProductForm.jsx';
 const apiBase = process.env.REACT_APP_API_BASE || '/api';
 
 
@@ -11,6 +12,10 @@ const ProductPage = () => {
 
   const onProductDelete = (deletedProductId) => {
     setProducts(products.filter(product => product.id !== deletedProductId));
+  }
+
+  const onProductAdded = (newProduct) => {
+    setProducts([...products, newProduct]);
   }
 
   useEffect(() => {
@@ -36,10 +41,7 @@ const ProductPage = () => {
 
   return (
     <div className="product-page">
-      <header className="page-header">
-        <h1>Brazilian Jiu Jitsu Gear</h1>
-        <p>Premium BJJ Equipment & Apparel</p>
-      </header>
+      <AddProductForm onProductAdded={onProductAdded} />
 
       {products.length === 0 
       ? (<h2
