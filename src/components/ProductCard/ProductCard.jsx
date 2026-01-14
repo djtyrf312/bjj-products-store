@@ -9,11 +9,16 @@ const ProductCard = ({ onDelete, productItem, index }) => {
     const { id, photo, title, description, price } = productItem;
     const [isDeleting, setIsDeleting] = useState(false);
 
+    // Determine if photo is a full URL or just a filename
+    const imageSource = photo.startsWith('http://') || photo.startsWith('https://') 
+        ? photo 
+        : `/images/${photo}`;
+
     return (
         <div key={id} className="product-card">
         <div className="product-image-container">
             <img 
-            src={`/images/${photo}`} 
+            src={imageSource} 
             alt={title}
             className="product-image"
             onError={(e) => {
