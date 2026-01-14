@@ -65,6 +65,95 @@
     font-weight: 600;
 }
 
+/* Kebab Menu */
+.kebab-menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+.kebab-button {
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    color: #333;
+}
+
+.kebab-button:hover {
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+.kebab-dropdown {
+    position: absolute;
+    top: 42px;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    min-width: 140px;
+    animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.kebab-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: white;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    text-align: left;
+}
+
+.kebab-option:hover {
+    background: #f5f5f5;
+}
+
+.kebab-option.delete {
+    color: #d32f2f;
+}
+
+.kebab-option.delete:hover {
+    background: #ffebee;
+}
+
+.kebab-option:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.kebab-option svg {
+    font-size: 14px;
+}
+
 /* Product Info */
 .product-info {
     padding: 20px;
