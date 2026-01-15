@@ -1,0 +1,24 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install SQLite3 CLI
+RUN apk add --no-cache sqlite
+
+# Copy package files
+COPY package*.json ./
+
+# Install production dependencies
+RUN npm ci --only=production
+
+# Copy server code and routes
+COPY server.js ./
+COPY routes ./routes
+COPY data/utils ./data/utils
+COPY public/bjj-products.json ./public/
+
+# Expose API port
+EXPOSE 4000
+
+# Start the API server
+CMD ["node", "server.js"]

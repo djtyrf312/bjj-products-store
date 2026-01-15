@@ -1,0 +1,17 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy only necessary files for DB initialization
+COPY package*.json ./
+COPY public/bjj-products.json ./public/
+COPY data/utils/initializeDb.js ./data/utils/
+
+# Install only production dependencies
+RUN npm ci --only=production
+
+# Create directory for database
+RUN mkdir -p /app/data
+
+# Start script to initialize and keep container running
+CMD ["node", "-e", "const initDb = require('./data/utils/initializeDb'); initDb(); setInterval(() => {}, 1000000);"]

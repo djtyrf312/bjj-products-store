@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    container_name: bjj-db-prod
+    volumes:
+      - db-data:/app/data
+    networks:
+      - bjj-network
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: bjj-api-prod
+    volumes:
+      - db-data:/app/data
+    depends_on:
+      - db
+    networks:
+      - bjj-network
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend.prod
+    container_name: bjj-frontend-prod
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+    networks:
+      - bjj-network
+    restart: unless-stopped
+
+volumes:
+  db-data:
+
+networks:
+  bjj-network:
+    driver: bridge
