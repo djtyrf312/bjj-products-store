@@ -1,0 +1,19 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies (including dev dependencies for React build)
+RUN npm install
+
+# Copy source files
+COPY public ./public
+COPY src ./src
+
+# Expose React dev server port
+EXPOSE 3000
+
+# Start React development server
+CMD ["npm", "start"]

@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    container_name: bjj-db
+    volumes:
+      - db-data:/app/data
+    networks:
+      - bjj-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: bjj-api
+    ports:
+      - "4000:4000"
+    volumes:
+      - db-data:/app/data
+    depends_on:
+      - db
+    networks:
+      - bjj-network
+    environment:
+      - PORT=4000
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: bjj-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - bjj-network
+    environment:
+      - REACT_APP_API_URL=http://api:4000
+      - WATCHPACK_POLLING=true
+    stdin_open: true
+    tty: true
+
+volumes:
+  db-data:
+
+networks:
+  bjj-network:
+    driver: bridge
