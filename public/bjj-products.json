@@ -5,7 +5,7 @@
       "title": "Premium A4 Brazilian Jiu Jitsu Gi - White",
       "description": "High-quality pearl weave gi with reinforced stitching. IBJJF approved. Includes matching pants with rope drawstring and durable knee reinforcements. Pre-shrunk 100% cotton construction for lasting fit.",
       "price": 149.99,
-      "photo": "white-bjj-gi-a4.jpg",
+      "photo": "https://sportano.ua/img/986c30c27a3d26a3ee16c136f92f4ff5/8/0/804579876017_40-jpg/ekipiruvannja-dlja-brazil-s-kogo-dzhiu-dzhitsu-hayabusa-lightweight-bile-1183176.jpg",
       "isDeleted": 0
     },
     {
@@ -13,7 +13,7 @@
       "title": "Compression Rashguard Long Sleeve - Black",
       "description": "No-gi training essential with moisture-wicking fabric and flatlock seams. Anti-microbial treatment prevents odor. Four-way stretch material allows full range of motion. Sublimated graphics won't crack or peel.",
       "price": 54.99,
-      "photo": "black-rashguard-longsleeve.jpg",
+      "photo": "https://sportano.ua/img/986c30c27a3d26a3ee16c136f92f4ff5/5/0/5060955607926_20A-jpg/rashgard-z-dovgim-rukavom-fumetsu-origins-chornij-1378365.jpg",
       "isDeleted": 0
     },
     {
@@ -21,7 +21,7 @@
       "title": "Fight Shorts - Navy Blue",
       "description": "Lightweight and flexible MMA-style shorts perfect for no-gi training. Side slits for mobility, Velcro and drawstring closure. Moisture-wicking polyester blend. Reinforced stitching on stress points.",
       "price": 44.99,
-      "photo": "navy-fight-shorts.jpg",
+      "photo": "https://sportano.ua/img/986c30c27a3d26a3ee16c136f92f4ff5/8/0/804579001624_01-jpg/shorti-dlja-trenuvan-hayabusa-icon-fight-blue-white-1490487.jpg",
       "isDeleted": 0
     },
     {
@@ -29,7 +29,7 @@
       "title": "BJJ Rank Belt - Blue A3",
       "description": "Official IBJJF standard cotton belt with black bar for stripe patches. Durable construction maintains shape through countless training sessions. Pre-washed to minimize shrinkage. Includes care instructions.",
       "price": 12.99,
-      "photo": "blue-belt-a3.jpg",
+      "photo": "https://sportano.ua/img/986c30c27a3d26a3ee16c136f92f4ff5/8/0/804579891522_40-jpg/pojas-dlja-brazil-s-kogo-dzhiu-dzhitsu-hayabusa-jiu-jitsu-blue-1185771.jpg",
       "isDeleted": 0
     },
     {
@@ -37,47 +37,7 @@
       "title": "Compression Spats - Black with Red Panels",
       "description": "Full-length grappling tights with ergonomic paneling for maximum performance. Reinforced waistband won't roll down during training. Quick-dry fabric with UPF 50+ sun protection. Ideal for gi or no-gi.",
       "price": 49.99,
-      "photo": "black-red-spats.jpg",
-      "isDeleted": 0
-    },
-    {
-      "id": 6,
-      "title": "Knee Pads - Compression Sleeve (Pair)",
-      "description": "7mm neoprene knee sleeves provide support and protection during takedowns and guard work. Non-slip interior keeps pads in place. Breathable design prevents overheating. Sold as pair.",
-      "price": 34.99,
-      "photo": "compression-knee-pads.jpg",
-      "isDeleted": 0
-    },
-    {
-      "id": 7,
-      "title": "Ear Guards - Adjustable Wrestling Headgear",
-      "description": "Prevent cauliflower ear with these comfortable, low-profile ear guards. Adjustable straps ensure secure fit. Soft chin cup and lightweight design won't restrict movement. Easy to clean.",
-      "price": 24.99,
-      "photo": "black-ear-guards.jpg",
-      "isDeleted": 0
-    },
-    {
-      "id": 8,
-      "title": "Gi and Gear Duffel Bag - 60L",
-      "description": "Spacious gym bag with ventilated compartments to keep wet gi separate. Multiple pockets for accessories. Padded shoulder strap and reinforced handles. Water-resistant base protects against wet floors.",
-      "price": 64.99,
-      "photo": "bjj-duffel-bag-black.jpg",
-      "isDeleted": 0
-    },
-    {
-      "id": 9,
-      "title": "Custom Moldable Mouthguard",
-      "description": "Boil-and-bite mouthguard provides superior protection during sparring. Dual-layer construction absorbs impact. Includes ventilation channels for easy breathing. Comes with protective case.",
-      "price": 16.99,
-      "photo": "mouthguard-case.jpg",
-      "isDeleted": 0
-    },
-    {
-      "id": 10,
-      "title": "Grappling Dummy - 70lbs Unfilled",
-      "description": "Train submissions and positions at home with this durable canvas dummy. Reinforced stitching handles intense drilling. Sitting position with hands extended. Ships unfilled - fill with textile scraps or sand.",
-      "price": 89.99,
-      "photo": "grappling-dummy-70lb.jpg",
+      "photo": "https://sportano.ua/img/986c30c27a3d26a3ee16c136f92f4ff5/3/6/3611441823157_01-jpg/leginsi-dlja-trenuvan-cholovichi-venum-x-tekken-8-marshall-law-spats-black-red-gold-1337137.jpg",
       "isDeleted": 0
     }
   ]
