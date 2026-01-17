@@ -3,9 +3,9 @@ const router = express.Router();
 const initializeDatabase = require('../data/utils/initializeDb');
 const db = initializeDatabase();
 
-const productsRoute = '/api/products';
+const productsUrl = '/api/products';
 
-router.get(productsRoute, (req, res) => {
+router.get(productsUrl, (req, res) => {
     db.all('SELECT * FROM products WHERE isDeleted = 0 ORDER BY id', (err, rows) => {
         if (err) {
             console.error('Failed to query products', err);
@@ -15,7 +15,7 @@ router.get(productsRoute, (req, res) => {
     });
 });
 
-router.post(productsRoute, (req, res) => {
+router.post(productsUrl, (req, res) => {
     const { title, description, price, photo } = req.body;
 
     // Validate required fields
@@ -49,7 +49,7 @@ router.post(productsRoute, (req, res) => {
     );
 });
 
-router.put(productsRoute + '/:id', (req, res) => {
+router.put(productsUrl + '/:id', (req, res) => {
     const productId = req.params.id;
     const { title, description, price, photo } = req.body;
 
@@ -88,7 +88,7 @@ router.put(productsRoute + '/:id', (req, res) => {
     );
 });
 
-router.delete(productsRoute + '/:id', (req, res) => {
+router.delete(productsUrl + '/:id', (req, res) => {
     const productId = req.params.id;
     
     db.run(`UPDATE products SET isDeleted = 1 WHERE id = ?`, [productId], function(err) {
@@ -105,4 +105,4 @@ router.delete(productsRoute + '/:id', (req, res) => {
     });
 });
 
-module.exports = router;
+module.exports = {router, productsUrl};
