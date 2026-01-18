@@ -19,7 +19,11 @@
     "sqlite3": "^5.1.6"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "@types/jest": "^30.0.0",
+    "concurrently": "^8.2.2",
+    "husky": "^9.1.7",
+    "jest": "^27.5.1",
+    "supertest": "^7.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -36,7 +40,9 @@
     "docker:prod:logs": "docker compose -f docker-compose.prod.yml logs -f",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:api": "jest",
+    "prepare": "husky"
   },
   "eslintConfig": {
     "extends": [
