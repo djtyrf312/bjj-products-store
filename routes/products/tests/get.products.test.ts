@@ -21,16 +21,17 @@ afterEach(async () => {
 });
 
 test('test get products should return 200 and an array of products', async () => {
-    const response = await request(app).get(ROUTES.PRODUCTS);
-    const addedProduct = response.body.find((p: any) => p.title === productResponse.body.title);
+    const response = await request(app).get(`${ROUTES.PRODUCTS}?order=desc`);
+    const addedProduct = response.body.products.find((p: any) => p.title === productResponse.body.title);
 
     expect(response.statusCode).toBe(200);
-    expect(Array.isArray(response.body)).toBe(true);
+    expect(Array.isArray(response.body.products)).toBe(true);
     expect(addedProduct).toBeDefined();
-    expect(response.body[0]).toHaveProperty('id');
-    expect(response.body[0]).toHaveProperty('title');
-    expect(response.body[0]).toHaveProperty('description');
-    expect(response.body[0]).toHaveProperty('price');
-    expect(response.body[0]).toHaveProperty('photo');
-    expect(response.body[0]).toHaveProperty('isDeleted');
+    expect(response.body.products[0]).toHaveProperty('id');
+    expect(response.body.products[0]).toHaveProperty('title');
+    expect(response.body.products[0]).toHaveProperty('description');
+    expect(response.body.products[0]).toHaveProperty('price');
+    expect(response.body.products[0]).toHaveProperty('photo');
+    expect(response.body.products[0]).toHaveProperty('isDeleted');
 });
+

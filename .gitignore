@@ -17,3 +17,4 @@ yarn-error.log*
 *.db-wal
 data/*.db
 coverage/
+*.products.db
