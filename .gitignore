@@ -16,3 +16,4 @@ yarn-error.log*
 *.db-shm
 *.db-wal
 data/*.db
+coverage/

@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const initializeDatabase = require('../data/utils/initializeDb');
+const initializeDatabase = require('../../data/utils/initializeDb');
 const db = initializeDatabase();
+const ROUTES = require('../routes');
+const { createProductSchema, updateProductSchema } = require('../schemas');
 
-const productsUrl = '/api/products';
-
-router.get(productsUrl, (req, res) => {
+router.get(ROUTES.PRODUCTS, (req, res) => {
     db.all('SELECT * FROM products WHERE isDeleted = 0 ORDER BY id', (err, rows) => {
         if (err) {
             console.error('Failed to query products', err);
@@ -15,18 +15,20 @@ router.get(productsUrl, (req, res) => {
     });
 });
 
-router.post(productsUrl, (req, res) => {
-    const { title, description, price, photo } = req.body;
-
-    // Validate required fields
-    if (!title || !description || !price || !photo) {
-        return res.status(400).json({ error: 'All fields are required' });
+router.post(ROUTES.PRODUCTS, (req, res) => {
+    const result = createProductSchema.safeParse(req.body);
+    
+    if (!result.success) {
+        return res.status(400).json({ 
+            error: 'Validation failed', 
+            details: result.error.issues.map(e => ({
+                field: e.path.join('.'),
+                message: e.message
+            }))
+        });
     }
 
-    // Validate price is a number
-    if (isNaN(price) || price <= 0) {
-        return res.status(400).json({ error: 'Price must be a positive number' });
-    }
+    const { title, description, price, photo } = result.data;
 
     db.run(
         `INSERT INTO products (title, description, price, photo, isDeleted) VALUES (?, ?, ?, ?, 0)`,
@@ -49,19 +51,23 @@ router.post(productsUrl, (req, res) => {
     );
 });
 
-router.put(productsUrl + '/:id', (req, res) => {
+router.put(ROUTES.PRODUCTS + '/:id', (req, res) => {
     const productId = req.params.id;
-    const { title, description, price, photo } = req.body;
-
-    // Validate required fields
-    if (!title || !description || !price || !photo) {
-        return res.status(400).json({ error: 'All fields are required' });
+    
+    // Validate request body using Zod schema
+    const result = updateProductSchema.safeParse(req.body);
+    
+    if (!result.success) {
+        return res.status(400).json({ 
+            error: 'Validation failed', 
+            details: result.error.issues.map(e => ({
+                field: e.path.join('.'),
+                message: e.message
+            }))
+        });
     }
 
-    // Validate price is a number
-    if (isNaN(price) || price <= 0) {
-        return res.status(400).json({ error: 'Price must be a positive number' });
-    }
+    const { title, description, price, photo } = result.data;
 
     db.run(
         `UPDATE products SET title = ?, description = ?, price = ?, photo = ? WHERE id = ? AND isDeleted = 0`,
@@ -88,7 +94,7 @@ router.put(productsUrl + '/:id', (req, res) => {
     );
 });
 
-router.delete(productsUrl + '/:id', (req, res) => {
+router.delete(ROUTES.PRODUCTS + '/:id', (req, res) => {
     const productId = req.params.id;
     
     db.run(`UPDATE products SET isDeleted = 1 WHERE id = ?`, [productId], function(err) {
@@ -105,4 +111,4 @@ router.delete(productsUrl + '/:id', (req, res) => {
     });
 });
 
-module.exports = {router, productsUrl};
+module.exports = { router, db };
