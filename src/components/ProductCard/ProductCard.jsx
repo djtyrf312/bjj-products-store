@@ -8,6 +8,7 @@ const ProductCard = ({ onDelete, onEdit, productItem, index }) => {
     const { id, photo, title, description, price } = productItem;
     const [isDeleting, setIsDeleting] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const [showTooltip, setShowTooltip] = useState(false);
     const menuRef = useRef(null);
 
     // Close menu when clicking outside
@@ -79,11 +80,22 @@ const ProductCard = ({ onDelete, onEdit, productItem, index }) => {
         </div>
 
         <div className="product-info">
-            <h2 className="product-title">{title}</h2>
+            <h2 className="product-title" title={title}>{title}</h2>
             
-            <p className="product-description">
-            {description}
-            </p>
+            <div 
+                className="product-description-wrapper"
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+            >
+                <p className="product-description">
+                    {description}
+                </p>
+                {showTooltip && (
+                    <div className="description-tooltip">
+                        {description}
+                    </div>
+                )}
+            </div>
 
             <div className="product-footer">
             <span className="product-price">${price.toFixed(2)}</span>

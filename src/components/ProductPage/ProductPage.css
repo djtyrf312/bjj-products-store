@@ -8,13 +8,56 @@
 
 .product-page {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);  
   min-height: 100vh;
+  padding: 0 20px;
+  overflow-y: auto;
+}
+
+.product-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 0 10px 20px;
+}
+
+.sort-control label {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.sort-control select {
+  padding: 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.sort-control select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.sort-control select:hover {
+  border-color: #ccc;
 }
 
 /* Add to Cart Button */
 .add-to-cart-btn {
-  background: linear-gradient(135deg, #982ef5 0%, #620a4c 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -28,7 +71,7 @@
 
 .add-to-cart-btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
 }
 
 .add-to-cart-btn:active {

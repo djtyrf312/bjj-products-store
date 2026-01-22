@@ -6,12 +6,42 @@ const ROUTES = require('../routes');
 const { createProductSchema, updateProductSchema } = require('../schemas');
 
 router.get(ROUTES.PRODUCTS, (req, res) => {
-    db.all('SELECT * FROM products WHERE isDeleted = 0 ORDER BY id', (err, rows) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 12;
+    const offset = (page - 1) * limit;
+    const order = req.query.order?.toLowerCase() === 'desc' ? 'DESC' : 'ASC';
+
+    // Get total count
+    db.get('SELECT COUNT(*) as total FROM products WHERE isDeleted = 0', (err, countResult) => {
         if (err) {
-            console.error('Failed to query products', err);
+            console.error('Failed to count products', err);
             return res.status(500).json({ error: 'Failed to load products' });
         }
-        res.json(rows);
+
+        const total = countResult.total;
+        const totalPages = Math.ceil(total / limit);
+
+        // Get paginated products with ordering
+        db.all(
+            `SELECT * FROM products WHERE isDeleted = 0 ORDER BY id ${order} LIMIT ? OFFSET ?`,
+            [limit, offset],
+            (err, rows) => {
+                if (err) {
+                    console.error('Failed to query products', err);
+                    return res.status(500).json({ error: 'Failed to load products' });
+                }
+                res.json({
+                    products: rows,
+                    pagination: {
+                        page,
+                        limit,
+                        total,
+                        totalPages,
+                        order
+                    }
+                });
+            }
+        );
     });
 });
 

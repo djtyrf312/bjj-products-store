@@ -1,11 +1,11 @@
 .add-product-button-container {
   display: flex;
   justify-content: flex-end;
-  padding: 20px 20px 20px 0;
+  padding: 15px 20px 10px 0;
 }
 
 .add-product-button {
-  background-color: #2196F3;
+  background-color: var(--primary-color);
   color: white;
   border: none;
   padding: 12px 24px;
@@ -18,7 +18,7 @@
 }
 
 .add-product-button:hover {
-  background-color: #1976D2;
+  background-color: var(--primary-color-dark);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -108,7 +108,7 @@
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #2196F3;
+  border-color: var(--primary-color);
 }
 
 .form-group textarea {
@@ -144,12 +144,12 @@
 }
 
 .submit-button {
-  background-color: #4CAF50;
+  background-color: var(--primary-color);
   color: white;
 }
 
 .submit-button:hover:not(:disabled) {
-  background-color: #45a049;
+  background-color: var(--primary-color-dark);
 }
 
 .cancel-button:disabled,
